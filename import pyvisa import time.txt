@@ -1,0 +1,28 @@
+import pyvisa
+import time
+t_points = np.linspace(0, 16.534, 100)  # Total time = 16.534 s
+DM = 800
+K = 4148.8
+f_start = 600  # MHz
+
+# Compute frequencies in Hz
+freqs = 1e6 / np.sqrt(t_points / (K * DM) + 1 / (f_start ** 2))  # in MHz
+freqs_hz = freqs * 1e6  # Convert to Hz
+# Convert frequencies to string
+freq_list_str = ",".join([f"{f:.3f}" for f in freqs_hz])
+
+# Full SCPI command
+freq_command = f":LIST:FREQ {freq_list_str}"
+
+rm = pyvisa.ResourceManager()
+inst = rm.open_resource('TCPIP::192.168.40.212::5025::SOCKET')
+
+# Load LIST mode settings
+sg.write(":FREQ:MODE LIST")
+sg.write(freq_command)
+sg.write(":LIST:DWEL 0.16534")  # Equal dwell time per step: 16.534 / 100
+sg.write(":TRIG:SOUR IMM")      # Trigger immediately
+sg.write(":INIT:CONT ON")       # Continuous mode
+sg.write(":OUTP ON")            # RF output ON
+sg.write(":INIT")               # Start the sweep
+
