@@ -7,7 +7,7 @@ DM = 800
 K = 4148.8
 freq_hi = 600 # MHz
 freq_lo = 400 # MHz
-n_point = 800
+n_point = DM #800 #we assume the number of points and DM ae same for our use.
 t_total = K*DM*(1/freq_lo**2-1/freq_hi**2) # sec
 t_sep = t_total/n_point # sec
 print('duration:', t_total)
@@ -27,7 +27,8 @@ inst.write(":FREQ:MODE CW")
 inst.write(":INIT:CONT ON")
 inst.write(":TRIG:SOUR IMM")
 inst.write(":POW -10")
-inst.write(":OUTP ON")
+inst.write(":OUTP ON") #RF ON
+#inst.write(":OUTP OFF") #RF OFF
 #inst.write(f":FREQ {freq_lo}MHz")
 time.sleep(2)
 print('start sending pulses now')
