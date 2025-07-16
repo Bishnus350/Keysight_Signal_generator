@@ -4,3 +4,4 @@ More about PyVISA can be found in
 https://pyvisa.readthedocs.io/en/latest/
 This is my attempt to connect and run it. 
 I successfully did it for my case, you may consider changing the codes and logic as you want.
+Recently, i found that pyvisa works with Tektronix Arbitrary wave generator also.
